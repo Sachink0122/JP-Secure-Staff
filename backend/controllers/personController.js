@@ -330,9 +330,150 @@ const listPersons = async (req, res, next) => {
   }
 };
 
+/**
+ * Submit person to Finance (Workflow Transition)
+ * POST /api/persons/:id/submit-to-finance
+ */
+const submitPersonToFinance = async (req, res, next) => {
+  try {
+    const personId = req.params.id;
+
+    // Validate person exists
+    const person = await Person.findById(personId)
+      .populate('owningDepartment', 'name code');
+    
+    if (!person) {
+      return res.status(404).json({
+        success: false,
+        error: 'Person not found'
+      });
+    }
+
+    // Validate person status
+    if (person.currentStatus !== 'OPERATION_STAGE_A') {
+      return res.status(400).json({
+        success: false,
+        error: `Cannot submit person. Current status is ${person.currentStatus}. Only persons with status OPERATION_STAGE_A can be submitted to Finance.`
+      });
+    }
+
+    // Check if already submitted (idempotent check)
+    if (person.currentStatus === 'FINANCE_STAGE') {
+      return res.status(409).json({
+        success: false,
+        error: 'Person has already been submitted to Finance'
+      });
+    }
+
+    // Validate user is from Operation department
+    const userDepartment = await Department.findById(req.user.departmentId);
+    if (!userDepartment) {
+      return res.status(500).json({
+        success: false,
+        error: 'User department not found'
+      });
+    }
+
+    // Find Operation department
+    const operationDepartment = await Department.findOne({
+      $or: [
+        { code: 'OPERATION' },
+        { name: { $regex: /^operation$/i } }
+      ]
+    });
+
+    if (!operationDepartment) {
+      return res.status(500).json({
+        success: false,
+        error: 'Operation department not found. Please contact administrator.'
+      });
+    }
+
+    // Check if user's department is Operation
+    if (userDepartment._id.toString() !== operationDepartment._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        error: 'Only users from Operation department can submit persons to Finance'
+      });
+    }
+
+    // Find Finance department
+    const financeDepartment = await Department.findOne({
+      $or: [
+        { code: 'FINANCE' },
+        { name: { $regex: /^finance$/i } }
+      ]
+    });
+
+    if (!financeDepartment) {
+      return res.status(500).json({
+        success: false,
+        error: 'Finance department not found. Please contact administrator.'
+      });
+    }
+
+    // Store previous values for audit
+    const previousStatus = person.currentStatus;
+    const previousDepartmentId = person.owningDepartment._id.toString();
+    const fromDepartment = person.owningDepartment.name;
+    const toDepartment = financeDepartment.name;
+
+    // Update person status and ownership
+    person.currentStatus = 'FINANCE_STAGE';
+    person.owningDepartment = financeDepartment._id;
+
+    // Append to status history
+    person.statusHistory.push({
+      status: 'FINANCE_STAGE',
+      changedBy: req.user.userId,
+      changedAt: new Date()
+    });
+
+    await person.save();
+
+    // Populate updated person
+    const updatedPerson = await Person.findById(person._id)
+      .populate('owningDepartment', 'name code')
+      .populate('createdBy', 'fullName email')
+      .populate('statusHistory.changedBy', 'fullName email');
+
+    // Audit log
+    await logPersonAction(
+      'PERSON_SUBMITTED_TO_FINANCE',
+      req.user.userId,
+      person._id,
+      {
+        previousStatus,
+        newStatus: 'FINANCE_STAGE',
+        fromDepartment,
+        toDepartment,
+        previousDepartmentId,
+        newDepartmentId: financeDepartment._id.toString()
+      },
+      {
+        submittedBy: req.user.userId,
+        submittedAt: new Date().toISOString()
+      },
+      req
+    );
+
+    logger.info(`Person ${person.email} (${person._id}) submitted to Finance by user ${req.user.userId}`);
+
+    res.status(200).json({
+      success: true,
+      data: { person: updatedPerson },
+      message: 'Person successfully submitted to Finance'
+    });
+  } catch (error) {
+    logger.error('Submit person to Finance error:', error);
+    next(error);
+  }
+};
+
 module.exports = {
   createPerson,
   getPerson,
-  listPersons
+  listPersons,
+  submitPersonToFinance
 };
 

@@ -163,9 +163,19 @@ const validateList = [
   handleValidationErrors
 ];
 
+// Submit to Finance validation
+const validateSubmitToFinance = [
+  param('id')
+    .isMongoId()
+    .withMessage('Invalid person ID'),
+  
+  handleValidationErrors
+];
+
 module.exports = {
   validateCreate,
   validateGet,
-  validateList
+  validateList,
+  validateSubmitToFinance
 };
 

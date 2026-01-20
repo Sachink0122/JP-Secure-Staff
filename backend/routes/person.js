@@ -14,14 +14,16 @@ const { PERMISSIONS } = require('../constants/permissions');
 const {
   createPerson,
   getPerson,
-  listPersons
+  listPersons,
+  submitPersonToFinance
 } = require('../controllers/personController');
 
 // Person validators
 const {
   validateCreate,
   validateGet,
-  validateList
+  validateList,
+  validateSubmitToFinance
 } = require('../validators/personValidator');
 
 // All person routes require authentication
@@ -48,6 +50,13 @@ router.get(
   checkPermission(PERMISSIONS.PERSON_READ),
   validateGet,
   getPerson
+);
+
+router.post(
+  '/persons/:id/submit-to-finance',
+  checkPermission(PERMISSIONS.PERSON_SUBMIT_TO_FINANCE),
+  validateSubmitToFinance,
+  submitPersonToFinance
 );
 
 module.exports = router;
