@@ -37,7 +37,13 @@ const auditLogSchema = new mongoose.Schema({
       'PERSON_DELETE',
       'PERSON_DUPLICATE_ATTEMPT',
       'PERSON_DOCUMENT_VALIDATION_FAILED',
-      'PERSON_SUBMITTED_TO_FINANCE'
+      'PERSON_SUBMITTED_TO_FINANCE',
+      
+      // Finance actions (Phase 5)
+      'FINANCE_DETAILS_UPDATED',
+      'FINANCE_COMPLETED',
+      'EMPLOYEE_CODE_ASSIGNED',
+      'FINANCE_UPDATE_ATTEMPT_DENIED'
     ],
     required: true
   },

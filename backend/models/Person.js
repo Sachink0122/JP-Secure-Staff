@@ -130,6 +130,103 @@ const personSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true
+  },
+
+  // Finance Details (Phase 5)
+  financeDetails: {
+    bankName: {
+      type: String,
+      trim: true,
+      maxlength: [200, 'Bank name cannot exceed 200 characters']
+    },
+    accountHolderName: {
+      type: String,
+      trim: true,
+      maxlength: [200, 'Account holder name cannot exceed 200 characters']
+    },
+    accountNumber: {
+      type: String,
+      trim: true,
+      maxlength: [50, 'Account number cannot exceed 50 characters']
+    },
+    ifscCode: {
+      type: String,
+      trim: true,
+      uppercase: true,
+      maxlength: [11, 'IFSC code cannot exceed 11 characters']
+    },
+    panNumber: {
+      type: String,
+      trim: true,
+      uppercase: true,
+      maxlength: [10, 'PAN number must be 10 characters']
+    },
+    paymentMode: {
+      type: String,
+      enum: {
+        values: ['BANK_TRANSFER', 'CHEQUE', 'CASH'],
+        message: 'Payment mode must be BANK_TRANSFER, CHEQUE, or CASH'
+      }
+    },
+    salaryType: {
+      type: String,
+      enum: {
+        values: ['MONTHLY', 'DAILY', 'HOURLY'],
+        message: 'Salary type must be MONTHLY, DAILY, or HOURLY'
+      }
+    },
+    salaryAmount: {
+      type: Number,
+      min: [0.01, 'Salary amount must be greater than 0']
+    },
+    financeRemarks: {
+      type: String,
+      trim: true,
+      maxlength: [1000, 'Finance remarks cannot exceed 1000 characters']
+    },
+    kycCompleted: {
+      type: Boolean,
+      default: false
+    },
+    completedAt: {
+      type: Date,
+      default: null
+    }
+  },
+
+  // Finance Documents (Phase 5)
+  financeDocuments: {
+    bankProof: {
+      type: String,
+      trim: true
+    },
+    panCard: {
+      type: String,
+      trim: true
+    },
+    salaryStructure: {
+      type: String,
+      trim: true
+    }
+  },
+
+  // Employee Code (Phase 5 - Finance-owned)
+  employeeCode: {
+    type: String,
+    trim: true,
+    uppercase: true,
+    unique: true,
+    sparse: true, // Allow null values but enforce uniqueness when present
+    immutable: true // Once set, cannot be changed
+  },
+  employeeCodeAssignedAt: {
+    type: Date,
+    default: null
+  },
+  employeeCodeAssignedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
   }
 }, {
   timestamps: true
@@ -148,6 +245,11 @@ personSchema.index({ createdAt: -1 });
 // Compound indexes for common queries
 personSchema.index({ currentStatus: 1, category: 1 });
 personSchema.index({ owningDepartment: 1, currentStatus: 1 });
+
+// Finance and Employee Code indexes (Phase 5)
+personSchema.index({ employeeCode: 1 }, { unique: true, sparse: true });
+personSchema.index({ 'financeDetails.kycCompleted': 1 });
+personSchema.index({ currentStatus: 1, 'financeDetails.kycCompleted': 1 });
 
 // Custom validation: alternateMobile must not equal primaryMobile
 personSchema.pre('validate', function(next) {

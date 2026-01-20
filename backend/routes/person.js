@@ -18,6 +18,13 @@ const {
   submitPersonToFinance
 } = require('../controllers/personController');
 
+// Finance controllers (Phase 5)
+const {
+  updateFinanceDetails,
+  completeFinance,
+  assignEmployeeCode
+} = require('../controllers/financeController');
+
 // Person validators
 const {
   validateCreate,
@@ -25,6 +32,13 @@ const {
   validateList,
   validateSubmitToFinance
 } = require('../validators/personValidator');
+
+// Finance validators (Phase 5)
+const {
+  validateUpdateFinance,
+  validateCompleteFinance,
+  validateAssignEmployeeCode
+} = require('../validators/financeValidator');
 
 // All person routes require authentication
 router.use(authenticate);
@@ -57,6 +71,29 @@ router.post(
   checkPermission(PERMISSIONS.PERSON_SUBMIT_TO_FINANCE),
   validateSubmitToFinance,
   submitPersonToFinance
+);
+
+// ==================== FINANCE ROUTES (Phase 5) ====================
+
+router.put(
+  '/persons/:id/finance',
+  checkPermission(PERMISSIONS.FINANCE_KYC_UPDATE),
+  validateUpdateFinance,
+  updateFinanceDetails
+);
+
+router.post(
+  '/persons/:id/finance/complete',
+  checkPermission(PERMISSIONS.FINANCE_KYC_UPDATE),
+  validateCompleteFinance,
+  completeFinance
+);
+
+router.post(
+  '/persons/:id/finance/assign-employee-code',
+  checkPermission(PERMISSIONS.FINANCE_KYC_UPDATE),
+  validateAssignEmployeeCode,
+  assignEmployeeCode
 );
 
 module.exports = router;
