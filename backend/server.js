@@ -53,11 +53,8 @@ app.get('/health', (req, res) => {
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/demo', require('./routes/demo')); // Demo protected routes
-// app.use('/api/users', require('./routes/users'));
-// app.use('/api/roles', require('./routes/roles'));
-// app.use('/api/permissions', require('./routes/permissions'));
-// app.use('/api/departments', require('./routes/departments'));
-// app.use('/api/person', require('./routes/person'));
+app.use('/api/admin', require('./routes/admin')); // Admin management routes
+app.use('/api', require('./routes/person')); // Person management routes (Stage-A)
 // app.use('/api/documents', require('./routes/documents'));
 // app.use('/api/tickets', require('./routes/tickets'));
 // app.use('/api/access-grants', require('./routes/accessGrants'));
