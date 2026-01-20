@@ -43,7 +43,13 @@ const auditLogSchema = new mongoose.Schema({
       'FINANCE_DETAILS_UPDATED',
       'FINANCE_COMPLETED',
       'EMPLOYEE_CODE_ASSIGNED',
-      'FINANCE_UPDATE_ATTEMPT_DENIED'
+      'FINANCE_UPDATE_ATTEMPT_DENIED',
+      
+      // HR actions (Phase 6)
+      'HR_DOCUMENT_GENERATED',
+      'HR_DOCUMENT_SIGNED',
+      'HR_COMPLETED',
+      'HR_UPDATE_ATTEMPT_DENIED'
     ],
     required: true
   },

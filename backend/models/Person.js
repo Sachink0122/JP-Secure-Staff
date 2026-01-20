@@ -227,6 +227,78 @@ const personSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     default: null
+  },
+
+  // HR Details (Phase 6)
+  hrDetails: {
+    offerLetter: {
+      templateId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Template',
+        default: null
+      },
+      generatedFile: {
+        type: String,
+        trim: true,
+        default: null
+      },
+      signedFile: {
+        type: String,
+        trim: true,
+        default: null
+      },
+      status: {
+        type: String,
+        enum: ['GENERATED', 'SIGNED'],
+        default: 'GENERATED'
+      },
+      generatedAt: {
+        type: Date,
+        default: null
+      },
+      signedAt: {
+        type: Date,
+        default: null
+      }
+    },
+    declaration: {
+      templateId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Template',
+        default: null
+      },
+      generatedFile: {
+        type: String,
+        trim: true,
+        default: null
+      },
+      signedFile: {
+        type: String,
+        trim: true,
+        default: null
+      },
+      status: {
+        type: String,
+        enum: ['GENERATED', 'SIGNED'],
+        default: 'GENERATED'
+      },
+      generatedAt: {
+        type: Date,
+        default: null
+      },
+      signedAt: {
+        type: Date,
+        default: null
+      }
+    },
+    hrCompleted: {
+      type: Boolean,
+      default: false
+    },
+    hrCompletedAt: {
+      type: Date,
+      default: null
+    }
   }
 }, {
   timestamps: true

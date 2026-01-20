@@ -25,6 +25,14 @@ const {
   assignEmployeeCode
 } = require('../controllers/financeController');
 
+// HR controllers (Phase 6)
+const {
+  generateHRDocument,
+  uploadSignedHRDocument,
+  viewHRDocuments,
+  completeHR
+} = require('../controllers/hrController');
+
 // Person validators
 const {
   validateCreate,
@@ -39,6 +47,14 @@ const {
   validateCompleteFinance,
   validateAssignEmployeeCode
 } = require('../validators/financeValidator');
+
+// HR validators (Phase 6)
+const {
+  validateGenerateDocument,
+  validateUploadSigned,
+  validateViewDocuments,
+  validateCompleteHR
+} = require('../validators/hrValidator');
 
 // All person routes require authentication
 router.use(authenticate);
@@ -94,6 +110,36 @@ router.post(
   checkPermission(PERMISSIONS.FINANCE_KYC_UPDATE),
   validateAssignEmployeeCode,
   assignEmployeeCode
+);
+
+// ==================== HR ROUTES (Phase 6) ====================
+
+router.post(
+  '/persons/:id/hr/generate',
+  checkPermission(PERMISSIONS.HR_DOCUMENT_GENERATE),
+  validateGenerateDocument,
+  generateHRDocument
+);
+
+router.post(
+  '/persons/:id/hr/upload',
+  checkPermission(PERMISSIONS.HR_DOCUMENT_UPLOAD),
+  validateUploadSigned,
+  uploadSignedHRDocument
+);
+
+router.get(
+  '/persons/:id/hr/documents',
+  checkPermission(PERMISSIONS.HR_DOCUMENT_READ),
+  validateViewDocuments,
+  viewHRDocuments
+);
+
+router.post(
+  '/persons/:id/hr/complete',
+  checkPermission(PERMISSIONS.HR_COMPLETE),
+  validateCompleteHR,
+  completeHR
 );
 
 module.exports = router;
