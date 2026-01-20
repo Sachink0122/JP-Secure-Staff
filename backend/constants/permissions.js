@@ -1,0 +1,148 @@
+/**
+ * Permission Constants
+ * All system permissions defined as constants
+ * These will be seeded into the database
+ */
+
+const PERMISSIONS = {
+  // User Management
+  USER_CREATE: 'USER_CREATE',
+  USER_READ: 'USER_READ',
+  USER_UPDATE: 'USER_UPDATE',
+  USER_DELETE: 'USER_DELETE',
+  USER_ACTIVATE: 'USER_ACTIVATE',
+  USER_DEACTIVATE: 'USER_DEACTIVATE',
+
+  // Role Management
+  ROLE_CREATE: 'ROLE_CREATE',
+  ROLE_READ: 'ROLE_READ',
+  ROLE_UPDATE: 'ROLE_UPDATE',
+  ROLE_DELETE: 'ROLE_DELETE',
+
+  // Permission Management
+  PERMISSION_READ: 'PERMISSION_READ',
+
+  // Department Management
+  DEPARTMENT_CREATE: 'DEPARTMENT_CREATE',
+  DEPARTMENT_READ: 'DEPARTMENT_READ',
+  DEPARTMENT_UPDATE: 'DEPARTMENT_UPDATE',
+  DEPARTMENT_DELETE: 'DEPARTMENT_DELETE',
+
+  // Person Management (Stage-A)
+  PERSON_CREATE: 'PERSON_CREATE',
+  PERSON_READ: 'PERSON_READ',
+  PERSON_UPDATE: 'PERSON_UPDATE',
+  PERSON_DELETE: 'PERSON_DELETE',
+  PERSON_SUBMIT_TO_FINANCE: 'PERSON_SUBMIT_TO_FINANCE',
+
+  // Document Management
+  DOCUMENT_UPLOAD: 'DOCUMENT_UPLOAD',
+  DOCUMENT_READ: 'DOCUMENT_READ',
+  DOCUMENT_DOWNLOAD: 'DOCUMENT_DOWNLOAD',
+  DOCUMENT_DELETE: 'DOCUMENT_DELETE',
+
+  // CV Wallet Access
+  CV_WALLET_ACCESS: 'CV_WALLET_ACCESS',
+
+  // Finance Module
+  FINANCE_KYC_VIEW: 'FINANCE_KYC_VIEW',
+  FINANCE_KYC_UPDATE: 'FINANCE_KYC_UPDATE',
+  FINANCE_DOCUMENT_VIEW: 'FINANCE_DOCUMENT_VIEW',
+
+  // HR Module
+  HR_DOCUMENT_VIEW: 'HR_DOCUMENT_VIEW',
+  HR_DOCUMENT_SIGN: 'HR_DOCUMENT_SIGN',
+  HR_EMPLOYEE_CODE_GENERATE: 'HR_EMPLOYEE_CODE_GENERATE',
+
+  // Ticket Management
+  TICKET_CREATE: 'TICKET_CREATE',
+  TICKET_READ: 'TICKET_READ',
+  TICKET_UPDATE: 'TICKET_UPDATE',
+  TICKET_CLOSE: 'TICKET_CLOSE',
+
+  // Access Grant Management
+  ACCESS_GRANT_CREATE: 'ACCESS_GRANT_CREATE',
+  ACCESS_GRANT_READ: 'ACCESS_GRANT_READ',
+  ACCESS_GRANT_REVOKE: 'ACCESS_GRANT_REVOKE',
+
+  // Template Management
+  TEMPLATE_CREATE: 'TEMPLATE_CREATE',
+  TEMPLATE_READ: 'TEMPLATE_READ',
+  TEMPLATE_UPDATE: 'TEMPLATE_UPDATE',
+  TEMPLATE_DELETE: 'TEMPLATE_DELETE',
+  TEMPLATE_PUBLISH: 'TEMPLATE_PUBLISH',
+
+  // Audit Log Access
+  AUDIT_LOG_READ: 'AUDIT_LOG_READ',
+
+  // Master Admin (special permission)
+  MASTER_ADMIN: 'MASTER_ADMIN'
+};
+
+// Permission descriptions
+const PERMISSION_DESCRIPTIONS = {
+  [PERMISSIONS.USER_CREATE]: 'Create new users',
+  [PERMISSIONS.USER_READ]: 'View user information',
+  [PERMISSIONS.USER_UPDATE]: 'Update user information',
+  [PERMISSIONS.USER_DELETE]: 'Delete users',
+  [PERMISSIONS.USER_ACTIVATE]: 'Activate user accounts',
+  [PERMISSIONS.USER_DEACTIVATE]: 'Deactivate user accounts',
+
+  [PERMISSIONS.ROLE_CREATE]: 'Create new roles',
+  [PERMISSIONS.ROLE_READ]: 'View roles',
+  [PERMISSIONS.ROLE_UPDATE]: 'Update roles',
+  [PERMISSIONS.ROLE_DELETE]: 'Delete roles',
+
+  [PERMISSIONS.PERMISSION_READ]: 'View permissions',
+
+  [PERMISSIONS.DEPARTMENT_CREATE]: 'Create new departments',
+  [PERMISSIONS.DEPARTMENT_READ]: 'View departments',
+  [PERMISSIONS.DEPARTMENT_UPDATE]: 'Update departments',
+  [PERMISSIONS.DEPARTMENT_DELETE]: 'Delete departments',
+
+  [PERMISSIONS.PERSON_CREATE]: 'Create new person records',
+  [PERMISSIONS.PERSON_READ]: 'View person records',
+  [PERMISSIONS.PERSON_UPDATE]: 'Update person records',
+  [PERMISSIONS.PERSON_DELETE]: 'Delete person records',
+  [PERMISSIONS.PERSON_SUBMIT_TO_FINANCE]: 'Submit person records to finance',
+
+  [PERMISSIONS.DOCUMENT_UPLOAD]: 'Upload documents',
+  [PERMISSIONS.DOCUMENT_READ]: 'View documents',
+  [PERMISSIONS.DOCUMENT_DOWNLOAD]: 'Download documents',
+  [PERMISSIONS.DOCUMENT_DELETE]: 'Delete documents',
+
+  [PERMISSIONS.CV_WALLET_ACCESS]: 'Access CV Wallet',
+
+  [PERMISSIONS.FINANCE_KYC_VIEW]: 'View Finance KYC documents',
+  [PERMISSIONS.FINANCE_KYC_UPDATE]: 'Update Finance KYC information',
+  [PERMISSIONS.FINANCE_DOCUMENT_VIEW]: 'View Finance documents',
+
+  [PERMISSIONS.HR_DOCUMENT_VIEW]: 'View HR documents',
+  [PERMISSIONS.HR_DOCUMENT_SIGN]: 'Sign HR documents',
+  [PERMISSIONS.HR_EMPLOYEE_CODE_GENERATE]: 'Generate employee codes',
+
+  [PERMISSIONS.TICKET_CREATE]: 'Create support tickets',
+  [PERMISSIONS.TICKET_READ]: 'View tickets',
+  [PERMISSIONS.TICKET_UPDATE]: 'Update tickets',
+  [PERMISSIONS.TICKET_CLOSE]: 'Close tickets',
+
+  [PERMISSIONS.ACCESS_GRANT_CREATE]: 'Create access grants',
+  [PERMISSIONS.ACCESS_GRANT_READ]: 'View access grants',
+  [PERMISSIONS.ACCESS_GRANT_REVOKE]: 'Revoke access grants',
+
+  [PERMISSIONS.TEMPLATE_CREATE]: 'Create templates',
+  [PERMISSIONS.TEMPLATE_READ]: 'View templates',
+  [PERMISSIONS.TEMPLATE_UPDATE]: 'Update templates',
+  [PERMISSIONS.TEMPLATE_DELETE]: 'Delete templates',
+  [PERMISSIONS.TEMPLATE_PUBLISH]: 'Publish templates (Master Admin only)',
+
+  [PERMISSIONS.AUDIT_LOG_READ]: 'View audit logs (Master Admin only)',
+
+  [PERMISSIONS.MASTER_ADMIN]: 'Master Admin - Full system access'
+};
+
+module.exports = {
+  PERMISSIONS,
+  PERMISSION_DESCRIPTIONS
+};
+
